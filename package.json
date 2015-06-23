@@ -1,0 +1,45 @@
+{
+  "name": "@gar/hapi-json-api",
+  "version": "1.0.0",
+  "description": "hapi json-api plugin",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "lab -c",
+    "lint": "eslint .",
+    "validate": "npm ls"
+  },
+  "keywords": [
+    "hapi",
+    "json-api",
+    "plugin",
+    "json",
+    "api"
+  ],
+  "author": "Gar <gar+code@danger.computer>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wraithgar/hapi-json-api.git"
+  },
+  "dependencies": {
+    "boom": "^2.8.0",
+    "hoek": "^2.14.0",
+    "media-type": "^0.3.0"
+  },
+  "devDependencies": {
+    "code": "^1.4.1",
+    "eslint": "^0.23.0",
+    "eslint-plugin-hapi": "^1.1.1",
+    "hapi": "^8.6.1",
+    "lab": "^5.11.0",
+    "precommit-hook": "^3.0.0"
+  },
+  "files": [
+    "lib/index.js"
+  ],
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
+}
