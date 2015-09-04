@@ -44,6 +44,9 @@ lab.experiment('hapi-json-api', function () {
     lab.experiment('with meta', function () {
 
         var server = new Hapi.Server();
+        server.connection({
+            routes: { cors: true }
+        });
         var plugins = [{
             register: require('../'),
             options: { meta: { test: true} }
@@ -247,23 +250,6 @@ lab.experiment('hapi-json-api', function () {
                 });
             });
 
-            lab.test('wrong format', function (done) {
-
-                var options = {
-                    method: 'POST', url: '/post',
-                    data: '<?xml version="1.0" encoding="UTF-8"?><foo><bar /></foo>',
-                    headers: {
-                        accept: 'application/vnd.api+json',
-                        'content-type': 'application/vnd.api+xml'
-                    }
-                };
-                server.inject(options, function (response) {
-
-                    errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
-                    done();
-                });
-            });
-
             lab.test('media type', function (done) {
 
                 var options = {
@@ -330,6 +316,18 @@ lab.experiment('hapi-json-api', function () {
 
                 Code.expect(response.statusCode).to.equal(204);
                 Code.expect(response.payload).to.equal('');
+                done();
+            });
+        });
+
+        lab.test('options', function (done) {
+
+            var options = {
+                method: 'OPTIONS', url: '/ok'
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(200);
                 done();
             });
         });
