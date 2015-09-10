@@ -97,11 +97,7 @@ lab.experiment('hapi-json-api', function () {
                 };
                 server.inject(options, function (response) {
 
-                    var payload = JSON.parse(response.payload);
-                    Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    Code.expect(payload.meta).to.include('test', 'id');
-                    Code.expect(payload.meta.test).to.equal(true);
+                    Code.expect(response.statusCode).to.equal(400);
                     done();
                 });
             });
@@ -136,17 +132,21 @@ lab.experiment('hapi-json-api', function () {
                 });
             });
 
-            lab.test('wrong subtype', function (done) {
+            lab.test('application/json', function (done) {
 
                 var options = {
-                    method: 'GET', url: '/',
+                    method: 'GET', url: '/ok',
                     headers: {
                         accept: 'application/json'
                     }
                 };
                 server.inject(options, function (response) {
 
-                    errorCheck(response, 400, 'Invalid `Accept` header');
+                    var payload = JSON.parse(response.payload);
+                    Code.expect(response.statusCode).to.equal(200);
+                    Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    Code.expect(payload.meta).to.include('test', 'id');
+                    Code.expect(payload.meta.test).to.equal(true);
                     done();
                 });
             });
@@ -161,7 +161,7 @@ lab.experiment('hapi-json-api', function () {
                 };
                 server.inject(options, function (response) {
 
-                    errorCheck(response, 400, 'The requested format is not supported');
+                    errorCheck(response, 400, 'Invalid `Accept` header');
                     done();
                 });
 
