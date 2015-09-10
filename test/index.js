@@ -89,14 +89,19 @@ lab.experiment('hapi-json-api', function () {
                     done();
                 });
             });
+
             lab.test('missing', function (done) {
 
                 var options = {
-                    method: 'GET', url: '/'
+                    method: 'GET', url: '/ok'
                 };
                 server.inject(options, function (response) {
 
-                    errorCheck(response, 400, 'Missing `Accept` header');
+                    var payload = JSON.parse(response.payload);
+                    Code.expect(response.statusCode).to.equal(200);
+                    Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    Code.expect(payload.meta).to.include('test', 'id');
+                    Code.expect(payload.meta.test).to.equal(true);
                     done();
                 });
             });
