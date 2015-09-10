@@ -69,119 +69,138 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
-        lab.experiment('Accept', function () {
+        //lab.experiment('Accept', function () {
 
-            lab.test('valid', function (done) {
+            //lab.test('valid', function (done) {
 
-                var options = {
-                    method: 'GET', url: '/ok',
-                    headers: {
-                        accept: 'application/vnd.api+json'
-                    }
-                };
-                server.inject(options, function (response) {
+                //var options = {
+                    //method: 'GET', url: '/ok',
+                    //headers: {
+                        //accept: 'application/vnd.api+json'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                    var payload = JSON.parse(response.payload);
-                    Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    Code.expect(payload.meta).to.include('test', 'id');
-                    Code.expect(payload.meta.test).to.equal(true);
-                    done();
-                });
-            });
+                    //var payload = JSON.parse(response.payload);
+                    //Code.expect(response.statusCode).to.equal(200);
+                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload.meta).to.include('test', 'id');
+                    //Code.expect(payload.meta.test).to.equal(true);
+                    //done();
+                //});
+            //});
 
-            lab.test('missing', function (done) {
+            //lab.test('missing', function (done) {
 
-                var options = {
-                    method: 'GET', url: '/ok'
-                };
-                server.inject(options, function (response) {
+                //var options = {
+                    //method: 'GET', url: '/ok'
+                //};
+                //server.inject(options, function (response) {
 
-                    Code.expect(response.statusCode).to.equal(400);
-                    done();
-                });
-            });
+                    //Code.expect(response.statusCode).to.equal(400);
+                    //done();
+                //});
+            //});
 
-            lab.test('invalid', function (done) {
+            //lab.test('invalid', function (done) {
 
-                var options = {
-                    method: 'GET', url: '/',
-                    headers: {
-                        accept: 'application/example'
-                    }
-                };
-                server.inject(options, function (response) {
+                //var options = {
+                    //method: 'GET', url: '/',
+                    //headers: {
+                        //accept: 'application/example'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                    errorCheck(response, 400, 'Invalid `Accept` header');
-                    done();
-                });
-            });
+                    //errorCheck(response, 400, 'Invalid `Accept` header');
+                    //done();
+                //});
+            //});
 
-            lab.test('wrong type', function (done) {
+            //lab.test('wrong type', function (done) {
 
-                var options = {
-                    method: 'GET', url: '/',
-                    headers: {
-                        accept: 'text/json'
-                    }
-                };
-                server.inject(options, function (response) {
+                //var options = {
+                    //method: 'GET', url: '/',
+                    //headers: {
+                        //accept: 'text/json'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                    errorCheck(response, 400, 'Invalid `Accept` header');
-                    done();
-                });
-            });
+                    //errorCheck(response, 400, 'Invalid `Accept` header');
+                    //done();
+                //});
+            //});
 
-            lab.test('application/json', function (done) {
+            //lab.test('application/json', function (done) {
 
-                var options = {
-                    method: 'GET', url: '/ok',
-                    headers: {
-                        accept: 'application/json'
-                    }
-                };
-                server.inject(options, function (response) {
+                //var options = {
+                    //method: 'GET', url: '/ok',
+                    //headers: {
+                        //accept: 'application/json'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                    var payload = JSON.parse(response.payload);
-                    Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    Code.expect(payload.meta).to.include('test', 'id');
-                    Code.expect(payload.meta.test).to.equal(true);
-                    done();
-                });
-            });
+                    //var payload = JSON.parse(response.payload);
+                    //Code.expect(response.statusCode).to.equal(200);
+                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload.meta).to.include('test', 'id');
+                    //Code.expect(payload.meta.test).to.equal(true);
+                    //done();
+                //});
+            //});
+            //lab.test('application/json, text/javascript', function (done) {
 
-            lab.test('wrong format', function (done) {
+                //var options = {
+                    //method: 'GET', url: '/ok',
+                    //headers: {
+                        //accept: 'application/json, text/javascript'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                var options = {
-                    method: 'GET', url: '/',
-                    headers: {
-                        accept: 'application/vnd.api+xml'
-                    }
-                };
-                server.inject(options, function (response) {
+                    //var payload = JSON.parse(response.payload);
+                    //Code.expect(response.statusCode).to.equal(200);
+                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload.meta).to.include('test', 'id');
+                    //Code.expect(payload.meta.test).to.equal(true);
+                    //done();
+                //});
+            //});
 
-                    errorCheck(response, 400, 'Invalid `Accept` header');
-                    done();
-                });
 
-            });
+            //lab.test('wrong format', function (done) {
 
-            lab.test('media type', function (done) {
+                //var options = {
+                    //method: 'GET', url: '/',
+                    //headers: {
+                        //accept: 'application/vnd.api+xml'
+                    //}
+                //};
+                //server.inject(options, function (response) {
 
-                var options = {
-                    method: 'GET', url: '/',
-                    headers: {
-                        accept: 'application/vnd.api+json;q=0.9'
-                    }
-                };
-                server.inject(options, function (response) {
+                    //errorCheck(response, 400, 'Invalid `Accept` header');
+                    //done();
+                //});
 
-                    errorCheck(response, 406, 'Media type parameters not allowed');
-                    done();
-                });
-            });
-        });
+            //});
+
+            //lab.test('media type', function (done) {
+
+                //var options = {
+                    //method: 'GET', url: '/',
+                    //headers: {
+                        //accept: 'application/vnd.api+json;q=0.9'
+                    //}
+                //};
+                //server.inject(options, function (response) {
+
+                    //errorCheck(response, 406, 'Media type parameters not allowed');
+                    //done();
+                //});
+            //});
+        //});
 
         lab.experiment('Content-Type', function () {
 
