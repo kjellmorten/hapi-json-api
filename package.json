@@ -1,6 +1,6 @@
 {
   "name": "@gar/hapi-json-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "hapi json-api plugin",
   "main": "lib/index.js",
   "scripts": {
