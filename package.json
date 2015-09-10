@@ -32,7 +32,7 @@
     "eslint-config-hapi": "^1.0.1",
     "eslint-plugin-hapi": "^1.2.0",
     "git-validate": "^2.0.3",
-    "hapi": "^9.0.4",
+    "hapi": "^9.3.1",
     "lab": "^5.16.0"
   },
   "files": [
