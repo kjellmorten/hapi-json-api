@@ -36,6 +36,10 @@ var serverSetup = function (server) {
 
         return reply().code(204);
     } });
+    server.route({ method: 'GET', path: '/text', handler: function (request, reply) {
+
+        return reply('ok').code(200).header('Content-Type', 'text/plain');
+    } });
 };
 
 
@@ -397,6 +401,7 @@ lab.experiment('hapi-json-api', function () {
                 Code.expect(response.statusCode).to.equal(200);
                 Code.expect(payload).to.deep.include({data: {id: 'ok'}});
                 Code.expect(payload.meta).to.include('id');
+                Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
                 done();
             });
         });
@@ -412,6 +417,39 @@ lab.experiment('hapi-json-api', function () {
             server.inject(options, function (response) {
 
                 errorCheck(response, 404);
+                done();
+            });
+        });
+
+        lab.test('without accept header', function (done) {
+
+            var options = {
+                method: 'GET', url: '/text',
+                headers: {}
+            };
+            server.inject(options, function (response) {
+
+                var payload = response.payload
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
+                Code.expect(payload).to.equal('ok');
+                done();
+            });
+        });
+
+        lab.test('with accept: text/plain header', function (done) {
+
+            var options = {
+                method: 'GET', url: '/text',
+                headers: {
+                  accept: 'text/plain'
+                }
+            };
+            server.inject(options, function (response) {
+
+                var payload = response.payload
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(payload).to.equal('ok');
                 done();
             });
         });
