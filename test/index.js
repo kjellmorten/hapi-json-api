@@ -18,8 +18,6 @@ var errorCheck = function (response, code, detail) {
 
 var serverSetup = function (server) {
 
-    server.connection();
-
     server.route({ method: 'GET', path: '/ok', handler: function (request, reply) {
 
         return reply({data: {id: 'ok', type: 'response' } });
@@ -351,7 +349,11 @@ lab.experiment('hapi-json-api', function () {
         lab.test('options', function (done) {
 
             var options = {
-                method: 'OPTIONS', url: '/ok'
+                method: 'OPTIONS', url: '/ok',
+                headers: {
+                  Origin: 'http://localhost',
+                  'Access-Control-Request-Method': 'GET'
+                }
             };
             server.inject(options, function (response) {
 
@@ -365,6 +367,8 @@ lab.experiment('hapi-json-api', function () {
     lab.experiment('without meta', function () {
 
         var server = new Hapi.Server();
+        server.connection();
+
         var plugins = [{
             register: require('../'),
             options: {}
