@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wraithgar/hapi-json-api.git"
+    "url": "https://github.com/wraithgar/hapi-json-api.git"
   },
   "dependencies": {
     "accepts": "^1.2.13",
