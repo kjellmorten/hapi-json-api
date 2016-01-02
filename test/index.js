@@ -291,6 +291,25 @@ lab.experiment('hapi-json-api', function () {
                     done();
                 });
             });
+
+            // https://github.com/json-api/json-api/issues/837
+            lab.test('media type is charset=utf-8', function (done) {
+
+                var options = {
+                    method: 'POST', url: '/post',
+                    headers: {
+                        accept: 'application/vnd.api+json',
+                        'content-type': 'application/vnd.api+json; charset=UTF-8'
+                    }
+                };
+                server.inject(options, function (response) {
+
+                    var payload = JSON.parse(response.payload);
+                    Code.expect(response.statusCode).to.equal(200);
+                    Code.expect(payload).to.deep.include({data: {id: 'post'}});
+                    done();
+                });
+            });
         });
 
         lab.experiment('Boom replies', function () {
