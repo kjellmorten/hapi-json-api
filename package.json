@@ -30,7 +30,7 @@
   "devDependencies": {
     "code": "^2.0.1",
     "eslint": "^2.1.0",
-    "eslint-config-hapi": "^8.0.0",
+    "eslint-config-hapi": "^9.0.0",
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.0.3",
     "hapi": "^13.0.0",
