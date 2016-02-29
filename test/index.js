@@ -18,10 +18,8 @@ var errorCheck = function (response, code, detail) {
 };
 
 var failAction = function failAction (request, reply, source, error) {
-    var meta = request.route.settings.validate[source].describe().meta;
-    var statusCode = meta ? meta[0].statusCode : 400;
 
-    reply(Boom.create(statusCode, error.message, error.data));
+    reply(Boom.create(400, 'custom fail error', error.data));
 };
 
 var serverSetup = function (server) {
@@ -352,7 +350,7 @@ lab.experiment('hapi-json-api', function () {
             server.inject(options, function (response) {
 
                 Code.expect(response.statusCode).to.equal(400);
-                errorCheck(response, 400, '"id" must be a number');
+                errorCheck(response, 400, 'custom fail error');
                 done();
             });
         });
