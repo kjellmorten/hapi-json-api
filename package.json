@@ -24,7 +24,7 @@
   "dependencies": {
     "accepts": "^1.2.13",
     "boom": "^3.0.0",
-    "hoek": "^3.0.4",
+    "hoek": "^4.0.0",
     "media-type": "^0.3.0"
   },
   "devDependencies": {
