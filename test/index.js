@@ -3,6 +3,7 @@ var Code = require('code');
 var Hapi = require('hapi');
 var Hoek = require('hoek');
 var Lab = require('lab');
+var Joi = require('joi');
 
 var lab = exports.lab = Lab.script();
 var errorCheck = function (response, code, detail) {
@@ -14,6 +15,11 @@ var errorCheck = function (response, code, detail) {
     if (detail) {
         Code.expect(payload.errors[0].detail).to.include(detail);
     }
+};
+
+var failAction = function failAction (request, reply, source, error) {
+
+    reply(Boom.create(400, 'custom fail error', error.data));
 };
 
 var serverSetup = function (server) {
@@ -37,6 +43,26 @@ var serverSetup = function (server) {
     server.route({ method: 'GET', path: '/text', handler: function (request, reply) {
 
         return reply('ok').code(200).header('Content-Type', 'text/plain');
+    } });
+    server.route({ method: 'GET', path: '/validate/params/{id}', config: { validate: { params: { id: Joi.number() } } }, handler: function (request, reply) {
+
+        return reply({data: {id: request.params.id} });
+    } });
+    server.route({ method: 'GET', path: '/validate/headers', config: { validate: { headers: { 'x-foo': Joi.string().required() } } }, handler: function (request, reply) {
+
+        return reply({data: {id: 'ok'} });
+    } });
+    server.route({ method: 'GET', path: '/validate/query', config: { validate: { query: { 'good': Joi.any().valid('good') } } }, handler: function (request, reply) {
+
+        return reply({data: {id: 'ok'} });
+    } });
+    server.route({ method: 'POST', path: '/validate/payload', config: { validate: { payload: { 'name': Joi.any().valid('cat') } } }, handler: function (request, reply) {
+
+        return reply({data: {id: 'ok'} });
+    } });
+    server.route({ method: 'GET', path: '/validate/failaction/{id}', config: { validate: { params: { id: Joi.number() }, failAction: failAction } }, handler: function (request, reply) {
+
+        return reply({data: {id: request.params.id} });
     } });
 };
 
@@ -70,139 +96,6 @@ lab.experiment('hapi-json-api', function () {
                 });
             });
         });
-
-        //lab.experiment('Accept', function () {
-
-            //lab.test('valid', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/vnd.api+json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-
-            //lab.test('missing', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok'
-                //};
-                //server.inject(options, function (response) {
-
-                    //Code.expect(response.statusCode).to.equal(400);
-                    //done();
-                //});
-            //});
-
-            //lab.test('invalid', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/example'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-            //});
-
-            //lab.test('wrong type', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'text/json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-            //});
-
-            //lab.test('application/json', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-            //lab.test('application/json, text/javascript', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/json, text/javascript'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-
-
-            //lab.test('wrong format', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/vnd.api+xml'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-
-            //});
-
-            //lab.test('media type', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/vnd.api+json;q=0.9'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 406, 'Media type parameters not allowed');
-                    //done();
-                //});
-            //});
-        //});
 
         lab.experiment('Content-Type', function () {
 
@@ -370,8 +263,8 @@ lab.experiment('hapi-json-api', function () {
             var options = {
                 method: 'OPTIONS', url: '/ok',
                 headers: {
-                  Origin: 'http://localhost',
-                  'Access-Control-Request-Method': 'GET'
+                    Origin: 'http://localhost',
+                    'Access-Control-Request-Method': 'GET'
                 }
             };
             server.inject(options, function (response) {
@@ -381,6 +274,86 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
+
+        //Validation takes place at different points in the request lifecycle so we test
+        //several of them to make sure they all work
+        lab.test('request params validation', function (done) {
+            var options = {
+                method: 'GET', url: '/validate/params/a',
+                headers: {
+                    accept: 'application/vnd.api+json'
+                }
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(400);
+                errorCheck(response, 400, '"id" must be a number');
+                done();
+            });
+        });
+
+        lab.test('request header validation', function (done) {
+            var options = {
+                method: 'GET', url: '/validate/headers',
+                headers: {
+                    accept: 'application/vnd.api+json'
+                }
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(400);
+                errorCheck(response, 400, '"x-foo" is required');
+                done();
+            });
+        });
+
+        lab.test('request query validation', function (done) {
+            var options = {
+                method: 'GET', url: '/validate/query?good=bad',
+                headers: {
+                    accept: 'application/vnd.api+json'
+                }
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(400);
+                errorCheck(response, 400, '"good" must be one of [good]');
+                done();
+            });
+        });
+
+        lab.test('request payload validation', function (done) {
+            var options = {
+                method: 'POST', url: '/validate/payload',
+                payload: {
+                    name: 'dog'
+                },
+                headers: {
+                    accept: 'application/vnd.api+json'
+                }
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(400);
+                errorCheck(response, 400, '"name" must be one of [cat]');
+                done();
+            });
+        });
+
+        lab.test('request validation with failaction', function (done) {
+            var options = {
+                method: 'GET', url: '/validate/failaction/a',
+                headers: {
+                    accept: 'application/vnd.api+json'
+                }
+            };
+            server.inject(options, function (response) {
+
+                Code.expect(response.statusCode).to.equal(400);
+                errorCheck(response, 400, 'custom fail error');
+                done();
+            });
+        });
     });
 
     lab.experiment('without meta', function () {
@@ -465,7 +438,7 @@ lab.experiment('hapi-json-api', function () {
             var options = {
                 method: 'GET', url: '/text',
                 headers: {
-                  accept: 'text/plain'
+                    accept: 'text/plain'
                 }
             };
             server.inject(options, function (response) {
@@ -478,4 +451,5 @@ lab.experiment('hapi-json-api', function () {
         });
 
     });
+
 });

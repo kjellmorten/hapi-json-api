@@ -5,8 +5,7 @@
   "scripts": {
     "test": "lab -c",
     "lint": "eslint . -c .eslintrc",
-    "validate": "npm ls",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "validate": "npm ls"
   },
   "keywords": [
     "hapi",
@@ -34,8 +33,8 @@
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.0.3",
     "hapi": "^13.0.0",
-    "lab": "^10.0.0",
-    "semantic-release": "^4.3.5"
+    "joi": "^8.0.3",
+    "lab": "^10.0.0"
   },
   "files": [
     "lib/index.js"
