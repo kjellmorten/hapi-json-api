@@ -85,7 +85,7 @@ lab.experiment('hapi-json-api', function () {
 
                     //var payload = JSON.parse(response.payload);
                     //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload).to.include({data: {id: 'ok'}});
                     //Code.expect(payload.meta).to.include('test', 'id');
                     //Code.expect(payload.meta.test).to.equal(true);
                     //done();
@@ -146,7 +146,7 @@ lab.experiment('hapi-json-api', function () {
 
                     //var payload = JSON.parse(response.payload);
                     //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload).to.include({data: {id: 'ok'}});
                     //Code.expect(payload.meta).to.include('test', 'id');
                     //Code.expect(payload.meta.test).to.equal(true);
                     //done();
@@ -164,7 +164,7 @@ lab.experiment('hapi-json-api', function () {
 
                     //var payload = JSON.parse(response.payload);
                     //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                    //Code.expect(payload).to.include({data: {id: 'ok'}});
                     //Code.expect(payload.meta).to.include('test', 'id');
                     //Code.expect(payload.meta.test).to.equal(true);
                     //done();
@@ -220,7 +220,7 @@ lab.experiment('hapi-json-api', function () {
 
                     var payload = JSON.parse(response.payload);
                     Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.deep.include({data: {id: 'post'}});
+                    Code.expect(payload).to.include({data: {id: 'post'}});
                     done();
                 });
             });
@@ -306,7 +306,7 @@ lab.experiment('hapi-json-api', function () {
 
                     var payload = JSON.parse(response.payload);
                     Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.deep.include({data: {id: 'post'}});
+                    Code.expect(payload).to.include({data: {id: 'post'}});
                     done();
                 });
             });
@@ -422,7 +422,7 @@ lab.experiment('hapi-json-api', function () {
 
                 var payload = JSON.parse(response.payload);
                 Code.expect(response.statusCode).to.equal(200);
-                Code.expect(payload).to.deep.include({data: {id: 'ok'}});
+                Code.expect(payload).to.include({data: {id: 'ok'}});
                 Code.expect(payload.meta).to.include('id');
                 Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
                 done();
