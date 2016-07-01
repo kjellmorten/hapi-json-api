@@ -2,6 +2,9 @@
 
 hapi plugin for enabling/enforcing json-api
 
+[![Build Status](https://travis-ci.org/wraithgar/hapi-json-api.svg?branch=master)](https://travis-ci.org/wraithgar/hapi-json-api)
+[![NSP Status](https://nodesecurity.io/orgs/wraithgar/projects/2fc98c1d-70b1-4d2a-b6ee-dd9d2dd19282/badge)](https://nodesecurity.io/orgs/wraithgar/projects/2fc98c1d-70b1-4d2a-b6ee-dd9d2dd19282)
+
 ## installing
 
 ```shell
