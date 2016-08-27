@@ -1,12 +1,12 @@
 {
   "name": "@gar/hapi-json-api",
+  "version": "2.0.1",
   "description": "hapi json-api plugin",
   "main": "lib/index.js",
   "scripts": {
     "test": "lab -c",
     "lint": "eslint . -c .eslintrc",
-    "validate": "npm ls",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "validate": "npm ls"
   },
   "keywords": [
     "hapi",
@@ -34,8 +34,7 @@
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.0.3",
     "hapi": "^15.0.1",
-    "lab": "^11.0.0",
-    "semantic-release": "^4.3.5"
+    "lab": "^11.0.0"
   },
   "files": [
     "lib/index.js"
