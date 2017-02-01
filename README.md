@@ -1,5 +1,7 @@
 # @gar/hapi-json-api
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/wraithgar/hapi-json-api.svg)](https://greenkeeper.io/)
+
 hapi plugin for enabling/enforcing json-api
 
 [![Build Status](https://travis-ci.org/wraithgar/hapi-json-api.svg?branch=master)](https://travis-ci.org/wraithgar/hapi-json-api)
