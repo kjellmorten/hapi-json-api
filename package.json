@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "accepts": "^1.2.13",
-    "boom": "^5.0.0",
+    "boom": "^6.0.0",
     "hoek": "^4.0.0",
     "media-type": "^0.3.0"
   },
