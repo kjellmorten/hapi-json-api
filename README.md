@@ -1,3 +1,7 @@
+# New maintainer needed
+
+This module is currently not being maintained. If you would like to take over those responsibilities please see [this issue](https://github.com/wraithgar/hapi-json-api/issues/43)
+
 # @gar/hapi-json-api
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/wraithgar/hapi-json-api.svg)](https://greenkeeper.io/)
