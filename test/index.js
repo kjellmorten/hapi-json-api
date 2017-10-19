@@ -1,13 +1,15 @@
-var Boom = require('boom');
-var Code = require('code');
-var Hapi = require('hapi');
-var Hoek = require('hoek');
-var Lab = require('lab');
+'use strict';
 
-var lab = exports.lab = Lab.script();
-var errorCheck = function (response, code, detail) {
+const Boom = require('boom');
+const Code = require('code');
+const Hapi = require('hapi');
+const Hoek = require('hoek');
+const Lab = require('lab');
 
-    var payload = JSON.parse(response.payload);
+const lab = exports.lab = Lab.script();
+const errorCheck = function (response, code, detail) {
+
+    const payload = JSON.parse(response.payload);
     Code.expect(payload).to.include('errors');
     Code.expect(payload.errors).to.have.length(1);
     Code.expect(payload.meta).to.include('id');
@@ -16,15 +18,15 @@ var errorCheck = function (response, code, detail) {
     }
 };
 
-var serverSetup = function (server) {
+const serverSetup = function (server) {
 
     server.route({ method: 'GET', path: '/ok', handler: function (request, reply) {
 
-        return reply({data: {id: 'ok', type: 'response' } });
+        return reply({ data: { id: 'ok', type: 'response' } });
     } });
     server.route({ method: 'POST', path: '/post', handler: function (request, reply) {
 
-        return reply({data: {id: 'post', type: 'response' } });
+        return reply({ data: { id: 'post', type: 'response' } });
     } });
     server.route({ method: 'GET', path: '/auth', handler: function (request, reply) {
 
@@ -41,28 +43,28 @@ var serverSetup = function (server) {
 };
 
 
-lab.experiment('hapi-json-api', function () {
+lab.experiment('hapi-json-api', () => {
 
-    lab.experiment('with meta', function () {
+    lab.experiment('with meta', () => {
 
-        var server = new Hapi.Server();
+        const server = new Hapi.Server();
         server.connection({
             routes: { cors: true }
         });
-        var plugins = [{
+        const plugins = [{
             register: require('../'),
-            options: { meta: { test: true} }
+            options: { meta: { test: true } }
         }];
 
 
-        lab.before(function (done) {
+        lab.before((done) => {
 
             serverSetup(server);
-            server.register(plugins, function (err) {
+            server.register(plugins, (err) => {
 
                 Hoek.assert(!err, 'Failed loading plugins: ' + err);
 
-                server.start(function (err) {
+                server.start((err) => {
 
                     Hoek.assert(!err, 'Failed starting server: ' + err);
 
@@ -73,142 +75,142 @@ lab.experiment('hapi-json-api', function () {
 
         //lab.experiment('Accept', function () {
 
-            //lab.test('valid', function (done) {
+        //lab.test('valid', function (done) {
 
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/vnd.api+json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
+        //var options = {
+        //method: 'GET', url: '/ok',
+        //headers: {
+        //accept: 'application/vnd.api+json'
+        //}
+        //};
+        //server.inject(options, function (response) {
 
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-
-            //lab.test('missing', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok'
-                //};
-                //server.inject(options, function (response) {
-
-                    //Code.expect(response.statusCode).to.equal(400);
-                    //done();
-                //});
-            //});
-
-            //lab.test('invalid', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/example'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-            //});
-
-            //lab.test('wrong type', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'text/json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-            //});
-
-            //lab.test('application/json', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/json'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-            //lab.test('application/json, text/javascript', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/ok',
-                    //headers: {
-                        //accept: 'application/json, text/javascript'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //var payload = JSON.parse(response.payload);
-                    //Code.expect(response.statusCode).to.equal(200);
-                    //Code.expect(payload).to.include({data: {id: 'ok'}});
-                    //Code.expect(payload.meta).to.include('test', 'id');
-                    //Code.expect(payload.meta.test).to.equal(true);
-                    //done();
-                //});
-            //});
-
-
-            //lab.test('wrong format', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/vnd.api+xml'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 400, 'Invalid `Accept` header');
-                    //done();
-                //});
-
-            //});
-
-            //lab.test('media type', function (done) {
-
-                //var options = {
-                    //method: 'GET', url: '/',
-                    //headers: {
-                        //accept: 'application/vnd.api+json;q=0.9'
-                    //}
-                //};
-                //server.inject(options, function (response) {
-
-                    //errorCheck(response, 406, 'Media type parameters not allowed');
-                    //done();
-                //});
-            //});
+        //var payload = JSON.parse(response.payload);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
+        //done();
+        //});
         //});
 
-        lab.experiment('Content-Type', function () {
+        //lab.test('missing', function (done) {
 
-            lab.test('valid', function (done) {
+        //var options = {
+        //method: 'GET', url: '/ok'
+        //};
+        //server.inject(options, function (response) {
 
-                var options = {
+        //Code.expect(response.statusCode).to.equal(400);
+        //done();
+        //});
+        //});
+
+        //lab.test('invalid', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/',
+        //headers: {
+        //accept: 'application/example'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //errorCheck(response, 400, 'Invalid `Accept` header');
+        //done();
+        //});
+        //});
+
+        //lab.test('wrong type', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/',
+        //headers: {
+        //accept: 'text/json'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //errorCheck(response, 400, 'Invalid `Accept` header');
+        //done();
+        //});
+        //});
+
+        //lab.test('application/json', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/ok',
+        //headers: {
+        //accept: 'application/json'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //var payload = JSON.parse(response.payload);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
+        //done();
+        //});
+        //});
+        //lab.test('application/json, text/javascript', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/ok',
+        //headers: {
+        //accept: 'application/json, text/javascript'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //var payload = JSON.parse(response.payload);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
+        //done();
+        //});
+        //});
+
+
+        //lab.test('wrong format', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/',
+        //headers: {
+        //accept: 'application/vnd.api+xml'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //errorCheck(response, 400, 'Invalid `Accept` header');
+        //done();
+        //});
+
+        //});
+
+        //lab.test('media type', function (done) {
+
+        //var options = {
+        //method: 'GET', url: '/',
+        //headers: {
+        //accept: 'application/vnd.api+json;q=0.9'
+        //}
+        //};
+        //server.inject(options, function (response) {
+
+        //errorCheck(response, 406, 'Media type parameters not allowed');
+        //done();
+        //});
+        //});
+        //});
+
+        lab.experiment('Content-Type', () => {
+
+            lab.test('valid', (done) => {
+
+                const options = {
                     method: 'POST', url: '/post',
                     payload: { data: { type: 'post', attributes: { name: 'test' } } },
                     headers: {
@@ -216,18 +218,18 @@ lab.experiment('hapi-json-api', function () {
                         'content-type': 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
-                    var payload = JSON.parse(response.payload);
+                    const payload = JSON.parse(response.payload);
                     Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.part.include({data: {id: 'post'}});
+                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
                     done();
                 });
             });
 
-            lab.test('missing', function (done) {
+            lab.test('missing', (done) => {
 
-                var options = {
+                const options = {
                     method: 'POST', url: '/post',
                     payload: { data: { type: 'post', attributes: { name: 'test' } } },
                     headers: {
@@ -235,16 +237,16 @@ lab.experiment('hapi-json-api', function () {
                         'content-type': ''
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
                     done();
                 });
             });
 
-            lab.test('wrong type', function (done) {
+            lab.test('wrong type', (done) => {
 
-                var options = {
+                const options = {
                     method: 'POST', url: '/post',
                     payload: { data: { type: 'post', attributes: { name: 'test' } } },
                     headers: {
@@ -252,16 +254,16 @@ lab.experiment('hapi-json-api', function () {
                         'content-type': 'text/json'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
                     done();
                 });
             });
 
-            lab.test('wrong subtype', function (done) {
+            lab.test('wrong subtype', (done) => {
 
-                var options = {
+                const options = {
                     method: 'POST', url: '/post',
                     payload: { data: { type: 'post', attributes: { name: 'test' } } },
                     headers: {
@@ -269,23 +271,23 @@ lab.experiment('hapi-json-api', function () {
                         'content-type': 'application/json'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
                     done();
                 });
             });
 
-            lab.test('media type', function (done) {
+            lab.test('media type', (done) => {
 
-                var options = {
+                const options = {
                     method: 'POST', url: '/post',
                     headers: {
                         accept: 'application/vnd.api+json',
                         'content-type': 'application/vnd.api+json;q=0.9'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
                     done();
@@ -293,54 +295,54 @@ lab.experiment('hapi-json-api', function () {
             });
 
             // https://github.com/json-api/json-api/issues/837
-            lab.test('media type is charset=utf-8', function (done) {
+            lab.test('media type is charset=utf-8', (done) => {
 
-                var options = {
+                const options = {
                     method: 'POST', url: '/post',
                     headers: {
                         accept: 'application/vnd.api+json',
                         'content-type': 'application/vnd.api+json; charset=UTF-8'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
-                    var payload = JSON.parse(response.payload);
+                    const payload = JSON.parse(response.payload);
                     Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.part.include({data: {id: 'post'}});
+                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
                     done();
                 });
             });
         });
 
-        lab.experiment('Boom replies', function () {
+        lab.experiment('Boom replies', () => {
 
-            lab.test('notfound', function (done) {
+            lab.test('notfound', (done) => {
 
-                var options = {
+                const options = {
                     method: 'GET', url: '/missing',
                     headers: {
                         accept: 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 404);
-                    var payload = JSON.parse(response.payload);
+                    const payload = JSON.parse(response.payload);
                     Code.expect(payload.meta.test).to.equal(true);
                     done();
                 });
 
             });
 
-            lab.test('unauthorized', function (done) {
+            lab.test('unauthorized', (done) => {
 
-                var options = {
+                const options = {
                     method: 'GET', url: '/auth',
                     headers: {
                         accept: 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, function (response) {
+                server.inject(options, (response) => {
 
                     errorCheck(response, 401, 'need auth');
                     done();
@@ -349,15 +351,15 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
-        lab.test('empty reply', function (done) {
+        lab.test('empty reply', (done) => {
 
-            var options = {
+            const options = {
                 method: 'DELETE', url: '/delete',
                 headers: {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
                 Code.expect(response.statusCode).to.equal(204);
                 Code.expect(response.payload).to.equal('');
@@ -365,16 +367,16 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
-        lab.test('options', function (done) {
+        lab.test('options', (done) => {
 
-            var options = {
+            const options = {
                 method: 'OPTIONS', url: '/ok',
                 headers: {
-                  Origin: 'http://localhost',
-                  'Access-Control-Request-Method': 'GET'
+                    Origin: 'http://localhost',
+                    'Access-Control-Request-Method': 'GET'
                 }
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
                 Code.expect(response.statusCode).to.equal(200);
                 done();
@@ -383,25 +385,25 @@ lab.experiment('hapi-json-api', function () {
 
     });
 
-    lab.experiment('without meta', function () {
+    lab.experiment('without meta', () => {
 
-        var server = new Hapi.Server();
+        const server = new Hapi.Server();
         server.connection();
 
-        var plugins = [{
+        const plugins = [{
             register: require('../'),
             options: {}
         }];
 
 
-        lab.before(function (done) {
+        lab.before((done) => {
 
             serverSetup(server);
-            server.register(plugins, function (err) {
+            server.register(plugins, (err) => {
 
                 Hoek.assert(!err, 'Failed loading plugins: ' + err);
 
-                server.start(function (err) {
+                server.start((err) => {
 
                     Hoek.assert(!err, 'Failed starting server: ' + err);
 
@@ -410,49 +412,49 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
-        lab.test('valid response', function (done) {
+        lab.test('valid response', (done) => {
 
-            var options = {
+            const options = {
                 method: 'GET', url: '/ok',
                 headers: {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
-                var payload = JSON.parse(response.payload);
+                const payload = JSON.parse(response.payload);
                 Code.expect(response.statusCode).to.equal(200);
-                Code.expect(payload).to.part.include({data: {id: 'ok'}});
+                Code.expect(payload).to.part.include({ data: { id: 'ok' } });
                 Code.expect(payload.meta).to.include('id');
                 Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
                 done();
             });
         });
 
-        lab.test('boom response', function (done) {
+        lab.test('boom response', (done) => {
 
-            var options = {
+            const options = {
                 method: 'GET', url: '/missing',
                 headers: {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
                 errorCheck(response, 404);
                 done();
             });
         });
 
-        lab.test('without accept header', function (done) {
+        lab.test('without accept header', (done) => {
 
-            var options = {
+            const options = {
                 method: 'GET', url: '/text',
                 headers: {}
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
-                var payload = response.payload
+                const payload = response.payload;
                 Code.expect(response.statusCode).to.equal(200);
                 Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
                 Code.expect(payload).to.equal('ok');
@@ -460,17 +462,17 @@ lab.experiment('hapi-json-api', function () {
             });
         });
 
-        lab.test('with accept: text/plain header', function (done) {
+        lab.test('with accept: text/plain header', (done) => {
 
-            var options = {
+            const options = {
                 method: 'GET', url: '/text',
                 headers: {
-                  accept: 'text/plain'
+                    accept: 'text/plain'
                 }
             };
-            server.inject(options, function (response) {
+            server.inject(options, (response) => {
 
-                var payload = response.payload
+                const payload = response.payload;
                 Code.expect(response.statusCode).to.equal(200);
                 Code.expect(payload).to.equal('ok');
                 done();
