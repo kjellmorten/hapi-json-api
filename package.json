@@ -1,7 +1,7 @@
 {
   "name": "@gar/hapi-json-api",
   "version": "2.0.3",
-  "description": "hapi json-api plugin",
+  "description": "Hapi plugin for enabling/enforcing JSON-API specification",
   "main": "lib/index.js",
   "scripts": {
     "test": "lab -c",
@@ -15,26 +15,26 @@
     "json",
     "api"
   ],
-  "author": "Gar <gar+npm@danger.computer>",
+  "author": "Kjell-Morten Bratsberg Thorsen <post@kjellmorten.no>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wraithgar/hapi-json-api.git"
+    "url": "https://github.com/kjellmorten/hapi-json-api.git"
   },
   "dependencies": {
-    "accepts": "^1.2.13",
+    "accepts": "^1.3.4",
     "boom": "^5.0.0",
     "hoek": "^4.0.0",
-    "media-type": "^0.3.0"
+    "media-type": "^0.3.1"
   },
   "devDependencies": {
-    "code": "^5.0.0",
-    "eslint": "^4.1.0",
-    "eslint-config-hapi": "^10.0.0",
+    "code": "^5.1.0",
+    "eslint": "^4.9.0",
+    "eslint-config-hapi": "^10.1.0",
     "eslint-plugin-hapi": "^4.0.0",
-    "git-validate": "^2.0.3",
-    "hapi": "^16.0.0",
-    "lab": "^14.0.0"
+    "git-validate": "^2.2.2",
+    "hapi": "^16.6.2",
+    "lab": "^14.3.1"
   },
   "files": [
     "lib/index.js"

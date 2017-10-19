@@ -1,23 +1,22 @@
-# New maintainer needed
+# hapi-json-api
 
-This module is currently not being maintained. If you would like to take over those responsibilities please see [this issue](https://github.com/wraithgar/hapi-json-api/issues/43)
+Hapi plugin for enabling/enforcing [JSON-API specification](http://jsonapi.org).
 
-# @gar/hapi-json-api
+Original project transferred from [@wraithgar](https://github.com/wraithgar).
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/wraithgar/hapi-json-api.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/kjellmorten/hapi-json-api.svg?branch=master)](https://travis-ci.org/kjellmorten/hapi-json-api)
+[![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
 
-hapi plugin for enabling/enforcing json-api
+## Getting started
 
-[![Build Status](https://travis-ci.org/wraithgar/hapi-json-api.svg?branch=master)](https://travis-ci.org/wraithgar/hapi-json-api)
-[![NSP Status](https://nodesecurity.io/orgs/wraithgar/projects/2fc98c1d-70b1-4d2a-b6ee-dd9d2dd19282/badge)](https://nodesecurity.io/orgs/wraithgar/projects/2fc98c1d-70b1-4d2a-b6ee-dd9d2dd19282)
-
-## installing
+### Installing
 
 ```shell
 npm install @gar/hapi-json-api
 ```
 
-## use
+## Example of use
 
 ```javascript
 //where server is a hapi server
@@ -28,16 +27,24 @@ server.register({
 });
 ```
 
-## options
+### Configuration
 
 Pass an optional `meta` parameter to options to have that included in
 the `meta` response namespace for all replies from your server
 
-## notes
+## Features
 
-Assumes the objects coming back from your handlers return data in proper
-json-api format. No validation yet.
+- Enforces Accept/Content-type rules defined in spec
 
-Rewrites Boom errors to be spec compliant.
+- Rewrites Boom errors to be spec compliant
 
-Enforces Accept/Content-type rules defined in spec
+**Note:** Objects coming back from your handlers is not validated as of now.
+It is assumed to be in proper json-api format and simply passed on.
+
+## Contributing
+
+Please read [CONTRIBUTING](https://github.com/kjellmorten/hapi-json-api/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/kjellmorten/hapi-json-api/blob/master/LICENSE.md) file for details.
