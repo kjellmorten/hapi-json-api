@@ -4,9 +4,10 @@ Hapi plugin for enabling/enforcing [JSON-API specification](http://jsonapi.org).
 
 Original project transferred from [@wraithgar](https://github.com/wraithgar).
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
+[![Current Version](https://img.shields.io/npm/v/@gar/hapi-json-api.svg)](https://www.npmjs.org/package/@gar/hapi-json-api)
 [![Build Status](https://travis-ci.org/kjellmorten/hapi-json-api.svg?branch=master)](https://travis-ci.org/kjellmorten/hapi-json-api)
 [![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
+[![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
 
 ## Getting started
 
