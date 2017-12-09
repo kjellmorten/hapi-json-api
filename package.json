@@ -36,7 +36,7 @@
     "eslint-config-hapi": "^10.1.0",
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.2.2",
-    "hapi": "^16.6.2",
+    "hapi": "^17.0.0",
     "lab": "^14.3.1"
   },
   "files": [
