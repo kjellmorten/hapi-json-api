@@ -31,7 +31,7 @@
     "media-type": "^0.3.1"
   },
   "devDependencies": {
-    "code": "^4.1.0",
+    "code": "^5.2.0",
     "eslint": "^4.9.0",
     "eslint-config-hapi": "^10.1.0",
     "eslint-plugin-hapi": "^4.0.0",
