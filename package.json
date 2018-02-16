@@ -37,7 +37,7 @@
     "eslint-plugin-hapi": "^4.0.0",
     "git-validate": "^2.2.2",
     "hapi": "^16.6.2",
-    "lab": "^14.3.1"
+    "lab": "^15.0.0"
   },
   "files": [
     "lib/index.js"
