@@ -3,7 +3,6 @@
 const Boom = require('boom');
 const Code = require('code');
 const Hapi = require('hapi');
-const Hoek = require('hoek');
 const Lab = require('lab');
 
 const lab = exports.lab = Lab.script();
@@ -20,26 +19,11 @@ const errorCheck = function (response, code, detail) {
 
 const serverSetup = function (server) {
 
-    server.route({ method: 'GET', path: '/ok', handler: function (request, reply) {
-
-        return reply({ data: { id: 'ok', type: 'response' } });
-    } });
-    server.route({ method: 'POST', path: '/post', handler: function (request, reply) {
-
-        return reply({ data: { id: 'post', type: 'response' } });
-    } });
-    server.route({ method: 'GET', path: '/auth', handler: function (request, reply) {
-
-        return reply(Boom.unauthorized('need auth'));
-    } });
-    server.route({ method: 'DELETE', path: '/delete', handler: function (request, reply) {
-
-        return reply().code(204);
-    } });
-    server.route({ method: 'GET', path: '/text', handler: function (request, reply) {
-
-        return reply('ok').code(200).header('Content-Type', 'text/plain');
-    } });
+    server.route({ method: 'GET', path: '/ok', handler: () => ({ data: { id: 'ok', type: 'response' } }) });
+    server.route({ method: 'POST', path: '/post', handler: () => ({ data: { id: 'post', type: 'response' } }) });
+    server.route({ method: 'GET', path: '/auth', handler: () => Boom.unauthorized('need auth') });
+    server.route({ method: 'DELETE', path: '/delete', handler: (request, respToolkit) => respToolkit.response().code(204) });
+    server.route({ method: 'GET', path: '/text', handler: (request, respToolkit) => respToolkit.response('ok').code(200).header('Content-Type', 'text/plain') });
 };
 
 
@@ -47,168 +31,23 @@ lab.experiment('hapi-json-api', () => {
 
     lab.experiment('with meta', () => {
 
-        const server = new Hapi.Server();
-        server.connection({
-            routes: { cors: true }
-        });
+        const server = Hapi.server({ routes: { cors: true } });
+
         const plugins = [{
-            register: require('../'),
+            plugin: require('../'),
             options: { meta: { test: true } }
         }];
 
 
-        lab.before((done) => {
+        lab.before(async () => {
 
             serverSetup(server);
-            server.register(plugins, (err) => {
-
-                Hoek.assert(!err, 'Failed loading plugins: ' + err);
-
-                server.start((err) => {
-
-                    Hoek.assert(!err, 'Failed starting server: ' + err);
-
-                    return done();
-                });
-            });
+            await server.register(plugins);
         });
-
-        //lab.experiment('Accept', function () {
-
-        //lab.test('valid', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/ok',
-        //headers: {
-        //accept: 'application/vnd.api+json'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //var payload = JSON.parse(response.payload);
-        //Code.expect(response.statusCode).to.equal(200);
-        //Code.expect(payload).to.include({data: {id: 'ok'}});
-        //Code.expect(payload.meta).to.include('test', 'id');
-        //Code.expect(payload.meta.test).to.equal(true);
-        //done();
-        //});
-        //});
-
-        //lab.test('missing', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/ok'
-        //};
-        //server.inject(options, function (response) {
-
-        //Code.expect(response.statusCode).to.equal(400);
-        //done();
-        //});
-        //});
-
-        //lab.test('invalid', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/',
-        //headers: {
-        //accept: 'application/example'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //errorCheck(response, 400, 'Invalid `Accept` header');
-        //done();
-        //});
-        //});
-
-        //lab.test('wrong type', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/',
-        //headers: {
-        //accept: 'text/json'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //errorCheck(response, 400, 'Invalid `Accept` header');
-        //done();
-        //});
-        //});
-
-        //lab.test('application/json', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/ok',
-        //headers: {
-        //accept: 'application/json'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //var payload = JSON.parse(response.payload);
-        //Code.expect(response.statusCode).to.equal(200);
-        //Code.expect(payload).to.include({data: {id: 'ok'}});
-        //Code.expect(payload.meta).to.include('test', 'id');
-        //Code.expect(payload.meta.test).to.equal(true);
-        //done();
-        //});
-        //});
-        //lab.test('application/json, text/javascript', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/ok',
-        //headers: {
-        //accept: 'application/json, text/javascript'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //var payload = JSON.parse(response.payload);
-        //Code.expect(response.statusCode).to.equal(200);
-        //Code.expect(payload).to.include({data: {id: 'ok'}});
-        //Code.expect(payload.meta).to.include('test', 'id');
-        //Code.expect(payload.meta.test).to.equal(true);
-        //done();
-        //});
-        //});
-
-
-        //lab.test('wrong format', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/',
-        //headers: {
-        //accept: 'application/vnd.api+xml'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //errorCheck(response, 400, 'Invalid `Accept` header');
-        //done();
-        //});
-
-        //});
-
-        //lab.test('media type', function (done) {
-
-        //var options = {
-        //method: 'GET', url: '/',
-        //headers: {
-        //accept: 'application/vnd.api+json;q=0.9'
-        //}
-        //};
-        //server.inject(options, function (response) {
-
-        //errorCheck(response, 406, 'Media type parameters not allowed');
-        //done();
-        //});
-        //});
-        //});
 
         lab.experiment('Content-Type', () => {
 
-            lab.test('valid', (done) => {
+            lab.test('valid', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -218,16 +57,13 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    const payload = JSON.parse(response.payload);
-                    Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
-                    done();
-                });
+                const response = await server.inject(options);
+                const payload = JSON.parse(response.payload);
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(payload).to.part.include({ data: { id: 'post' } });
             });
 
-            lab.test('missing', (done) => {
+            lab.test('missing', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -237,14 +73,11 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': ''
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
-                    done();
-                });
+                const response = await server.inject(options);
+                errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
             });
 
-            lab.test('wrong type', (done) => {
+            lab.test('wrong type', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -254,14 +87,11 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': 'text/json'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
-                    done();
-                });
+                const response = await server.inject(options);
+                errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
             });
 
-            lab.test('wrong subtype', (done) => {
+            lab.test('wrong subtype', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -271,14 +101,11 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': 'application/json'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
-                    done();
-                });
+                const response = await server.inject(options);
+                errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
             });
 
-            lab.test('media type', (done) => {
+            lab.test('media type', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -287,15 +114,12 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': 'application/vnd.api+json;q=0.9'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
-                    done();
-                });
+                const response = await server.inject(options);
+                errorCheck(response, 415, 'Only `application/vnd.api+json` content-type supported');
             });
 
             // https://github.com/json-api/json-api/issues/837
-            lab.test('media type is charset=utf-8', (done) => {
+            lab.test('media type is charset=utf-8', async () => {
 
                 const options = {
                     method: 'POST', url: '/post',
@@ -304,19 +128,16 @@ lab.experiment('hapi-json-api', () => {
                         'content-type': 'application/vnd.api+json; charset=UTF-8'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    const payload = JSON.parse(response.payload);
-                    Code.expect(response.statusCode).to.equal(200);
-                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
-                    done();
-                });
+                const response = await server.inject(options);
+                const payload = JSON.parse(response.payload);
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(payload).to.part.include({ data: { id: 'post' } });
             });
         });
 
         lab.experiment('Boom replies', () => {
 
-            lab.test('notfound', (done) => {
+            lab.test('notfound', async () => {
 
                 const options = {
                     method: 'GET', url: '/missing',
@@ -324,17 +145,13 @@ lab.experiment('hapi-json-api', () => {
                         accept: 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 404);
-                    const payload = JSON.parse(response.payload);
-                    Code.expect(payload.meta.test).to.equal(true);
-                    done();
-                });
-
+                const response = await server.inject(options);
+                errorCheck(response, 404);
+                const payload = JSON.parse(response.payload);
+                Code.expect(payload.meta.test).to.equal(true);
             });
 
-            lab.test('unauthorized', (done) => {
+            lab.test('unauthorized', async () => {
 
                 const options = {
                     method: 'GET', url: '/auth',
@@ -342,16 +159,12 @@ lab.experiment('hapi-json-api', () => {
                         accept: 'application/vnd.api+json'
                     }
                 };
-                server.inject(options, (response) => {
-
-                    errorCheck(response, 401, 'need auth');
-                    done();
-                });
-
+                const response = await server.inject(options);
+                errorCheck(response, 401, 'need auth');
             });
         });
 
-        lab.test('empty reply', (done) => {
+        lab.test('empty reply', async () => {
 
             const options = {
                 method: 'DELETE', url: '/delete',
@@ -359,15 +172,12 @@ lab.experiment('hapi-json-api', () => {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, (response) => {
-
-                Code.expect(response.statusCode).to.equal(204);
-                Code.expect(response.payload).to.equal('');
-                done();
-            });
+            const response = await server.inject(options);
+            Code.expect(response.statusCode).to.equal(204);
+            Code.expect(response.payload).to.equal('');
         });
 
-        lab.test('options', (done) => {
+        lab.test('options', async () => {
 
             const options = {
                 method: 'OPTIONS', url: '/ok',
@@ -376,43 +186,29 @@ lab.experiment('hapi-json-api', () => {
                     'Access-Control-Request-Method': 'GET'
                 }
             };
-            server.inject(options, (response) => {
-
-                Code.expect(response.statusCode).to.equal(200);
-                done();
-            });
+            const response = await server.inject(options);
+            Code.expect(response.statusCode).to.equal(200);
         });
 
     });
 
     lab.experiment('without meta', () => {
 
-        const server = new Hapi.Server();
-        server.connection();
+        const server = Hapi.server();
 
         const plugins = [{
-            register: require('../'),
+            plugin: require('../'),
             options: {}
         }];
 
 
-        lab.before((done) => {
+        lab.before(async () => {
 
             serverSetup(server);
-            server.register(plugins, (err) => {
-
-                Hoek.assert(!err, 'Failed loading plugins: ' + err);
-
-                server.start((err) => {
-
-                    Hoek.assert(!err, 'Failed starting server: ' + err);
-
-                    return done();
-                });
-            });
+            await server.register(plugins);
         });
 
-        lab.test('valid response', (done) => {
+        lab.test('valid response', async () => {
 
             const options = {
                 method: 'GET', url: '/ok',
@@ -420,18 +216,15 @@ lab.experiment('hapi-json-api', () => {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, (response) => {
-
-                const payload = JSON.parse(response.payload);
-                Code.expect(response.statusCode).to.equal(200);
-                Code.expect(payload).to.part.include({ data: { id: 'ok' } });
-                Code.expect(payload.meta).to.include('id');
-                Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
-                done();
-            });
+            const response = await server.inject(options);
+            const payload = JSON.parse(response.payload);
+            Code.expect(response.statusCode).to.equal(200);
+            Code.expect(payload).to.part.include({ data: { id: 'ok' } });
+            Code.expect(payload.meta).to.include('id');
+            Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
         });
 
-        lab.test('boom response', (done) => {
+        lab.test('boom response', async () => {
 
             const options = {
                 method: 'GET', url: '/missing',
@@ -439,30 +232,24 @@ lab.experiment('hapi-json-api', () => {
                     accept: 'application/vnd.api+json'
                 }
             };
-            server.inject(options, (response) => {
-
-                errorCheck(response, 404);
-                done();
-            });
+            const response = await server.inject(options);
+            errorCheck(response, 404);
         });
 
-        lab.test('without accept header', (done) => {
+        lab.test('without accept header', async () => {
 
             const options = {
                 method: 'GET', url: '/text',
                 headers: {}
             };
-            server.inject(options, (response) => {
-
-                const payload = response.payload;
-                Code.expect(response.statusCode).to.equal(200);
-                Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
-                Code.expect(payload).to.equal('ok');
-                done();
-            });
+            const response = await server.inject(options);
+            const payload = response.payload;
+            Code.expect(response.statusCode).to.equal(200);
+            Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
+            Code.expect(payload).to.equal('ok');
         });
 
-        lab.test('with accept: text/plain header', (done) => {
+        lab.test('with accept: text/plain header', async () => {
 
             const options = {
                 method: 'GET', url: '/text',
@@ -470,13 +257,10 @@ lab.experiment('hapi-json-api', () => {
                     accept: 'text/plain'
                 }
             };
-            server.inject(options, (response) => {
-
-                const payload = response.payload;
-                Code.expect(response.statusCode).to.equal(200);
-                Code.expect(payload).to.equal('ok');
-                done();
-            });
+            const response = await server.inject(options);
+            const payload = response.payload;
+            Code.expect(response.statusCode).to.equal(200);
+            Code.expect(payload).to.equal('ok');
         });
 
     });
