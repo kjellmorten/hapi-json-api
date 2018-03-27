@@ -22,7 +22,7 @@
     "url": "https://github.com/kjellmorten/hapi-json-api.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.6.0"
   },
   "dependencies": {
     "accepts": "^1.3.5",
