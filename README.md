@@ -9,6 +9,10 @@ Original project transferred from [@wraithgar](https://github.com/wraithgar).
 [![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
 [![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
 
+### Support
+
+`Hapi >= 17` - Use version `3.x`
+
 ## Getting started
 
 ### Installing
