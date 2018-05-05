@@ -7,6 +7,7 @@ const Hoek = require('hoek');
 const Lab = require('lab');
 
 const lab = exports.lab = Lab.script();
+
 const errorCheck = function (response, code, detail) {
 
     const payload = JSON.parse(response.payload);
