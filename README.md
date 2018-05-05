@@ -11,7 +11,9 @@ Original project transferred from [@wraithgar](https://github.com/wraithgar).
 
 ### Support
 
-`Hapi >= 17` - Use version `3.x`
+We support Hapi 17 from version 3.x, and have dropped support for Node < 8.6.
+
+(If you're using Hapi < 17 and Node < 8.6, `npm install @gar/hapi-json-api@2.0.6`.)
 
 ## Getting started
 
