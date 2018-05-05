@@ -4,8 +4,9 @@
   "description": "Hapi plugin for enabling/enforcing JSONAPI specification",
   "main": "lib/index.js",
   "scripts": {
-    "test": "lab -c",
+    "dev": "fsmonitor -s -p '+*.js' npm test",
     "lint": "eslint . -c .eslintrc",
+    "test": "lab -c",
     "validate": "npm ls"
   },
   "keywords": [
@@ -34,6 +35,7 @@
     "eslint": "^4.19.1",
     "eslint-config-hapi": "^11.1.0",
     "eslint-plugin-hapi": "^4.1.0",
+    "fsmonitor": "^0.2.4",
     "git-validate": "^2.2.2",
     "hapi": "^17.2.3",
     "lab": "^15.4.1"
