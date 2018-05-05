@@ -2,8 +2,5 @@
   "extends": "eslint-config-hapi",
   "parserOptions": {
      "ecmaVersion": 9
-  },
-  "rules": {
-    "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ]
   }
 }
