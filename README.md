@@ -3,8 +3,9 @@
 Hapi plugin for enabling/enforcing [JSON-API specification](http://jsonapi.org).
 
 Original project transferred from [@wraithgar](https://github.com/wraithgar).
+Was `@gar/hapi-json-api`.
 
-[![Current Version](https://img.shields.io/npm/v/@gar/hapi-json-api.svg)](https://www.npmjs.org/package/@gar/hapi-json-api)
+[![Current Version](https://img.shields.io/npm/v/hapi-json-api.svg)](https://www.npmjs.org/package/hapi-json-api)
 [![Build Status](https://travis-ci.org/kjellmorten/hapi-json-api.svg?branch=master)](https://travis-ci.org/kjellmorten/hapi-json-api)
 [![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
 [![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
@@ -20,7 +21,7 @@ We support Hapi 17 from version 3.x, and have dropped support for Node < 8.6.
 ### Installing
 
 ```shell
-npm install @gar/hapi-json-api
+npm install hapi-json-api
 ```
 
 ## Example of use
@@ -29,7 +30,7 @@ npm install @gar/hapi-json-api
 //where server is a hapi server
 
 server.register({
-    register: require('@gar/hapi-json-api')
+    register: require('hapi-json-api')
     options: {}
 });
 ```

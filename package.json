@@ -1,5 +1,5 @@
 {
-  "name": "@gar/hapi-json-api",
+  "name": "hapi-json-api",
   "version": "3.0.0",
   "description": "Hapi plugin for enabling/enforcing JSONAPI specification",
   "main": "lib/index.js",
