@@ -9,6 +9,12 @@ Original project transferred from [@wraithgar](https://github.com/wraithgar).
 [![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
 [![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
 
+### Support
+
+We support Hapi 17 from version 3.x, and have dropped support for Node < 8.6.
+
+(If you're using Hapi < 17 and Node < 8.6, `npm install @gar/hapi-json-api@2.0.6`.)
+
 ## Getting started
 
 ### Installing
