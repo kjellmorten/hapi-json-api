@@ -1,6 +1,6 @@
 {
-  "name": "hapi-json-api",
-  "version": "3.0.0",
+  "name": "@gar/hapi-json-api",
+  "version": "3.0.1",
   "description": "Hapi plugin for enabling/enforcing JSONAPI specification",
   "main": "lib/index.js",
   "scripts": {
