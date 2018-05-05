@@ -1,7 +1,7 @@
 'use strict';
 
 const Boom = require('boom');
-const { expect } = require('code');
+const Code = require('code');
 const Hapi = require('hapi');
 const Hoek = require('hoek');
 const Lab = require('lab');
@@ -11,11 +11,11 @@ const lab = exports.lab = Lab.script();
 const errorCheck = function (response, code, detail) {
 
     const payload = JSON.parse(response.payload);
-    expect(payload).to.include('errors');
-    expect(payload.errors).to.have.length(1);
-    expect(payload.meta).to.include('id');
+    Code.expect(payload).to.include('errors');
+    Code.expect(payload.errors).to.have.length(1);
+    Code.expect(payload.meta).to.include('id');
     if (detail) {
-        expect(payload.errors[0].detail).to.include(detail);
+        Code.expect(payload.errors[0].detail).to.include(detail);
     }
 };
 
@@ -87,10 +87,10 @@ lab.experiment('hapi-json-api', () => {
         //server.inject(options, function (response) {
 
         //var payload = JSON.parse(response.payload);
-        //expect(response.statusCode).to.equal(200);
-        //expect(payload).to.include({data: {id: 'ok'}});
-        //expect(payload.meta).to.include('test', 'id');
-        //expect(payload.meta.test).to.equal(true);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
         //done();
         //});
         //});
@@ -102,7 +102,7 @@ lab.experiment('hapi-json-api', () => {
         //};
         //server.inject(options, function (response) {
 
-        //expect(response.statusCode).to.equal(400);
+        //Code.expect(response.statusCode).to.equal(400);
         //done();
         //});
         //});
@@ -148,10 +148,10 @@ lab.experiment('hapi-json-api', () => {
         //server.inject(options, function (response) {
 
         //var payload = JSON.parse(response.payload);
-        //expect(response.statusCode).to.equal(200);
-        //expect(payload).to.include({data: {id: 'ok'}});
-        //expect(payload.meta).to.include('test', 'id');
-        //expect(payload.meta.test).to.equal(true);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
         //done();
         //});
         //});
@@ -166,10 +166,10 @@ lab.experiment('hapi-json-api', () => {
         //server.inject(options, function (response) {
 
         //var payload = JSON.parse(response.payload);
-        //expect(response.statusCode).to.equal(200);
-        //expect(payload).to.include({data: {id: 'ok'}});
-        //expect(payload.meta).to.include('test', 'id');
-        //expect(payload.meta.test).to.equal(true);
+        //Code.expect(response.statusCode).to.equal(200);
+        //Code.expect(payload).to.include({data: {id: 'ok'}});
+        //Code.expect(payload.meta).to.include('test', 'id');
+        //Code.expect(payload.meta.test).to.equal(true);
         //done();
         //});
         //});
@@ -222,8 +222,8 @@ lab.experiment('hapi-json-api', () => {
                 server.inject(options, (response) => {
 
                     const payload = JSON.parse(response.payload);
-                    expect(response.statusCode).to.equal(200);
-                    expect(payload).to.part.include({ data: { id: 'post' } });
+                    Code.expect(response.statusCode).to.equal(200);
+                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
                     done();
                 });
             });
@@ -308,8 +308,8 @@ lab.experiment('hapi-json-api', () => {
                 server.inject(options, (response) => {
 
                     const payload = JSON.parse(response.payload);
-                    expect(response.statusCode).to.equal(200);
-                    expect(payload).to.part.include({ data: { id: 'post' } });
+                    Code.expect(response.statusCode).to.equal(200);
+                    Code.expect(payload).to.part.include({ data: { id: 'post' } });
                     done();
                 });
             });
@@ -329,7 +329,7 @@ lab.experiment('hapi-json-api', () => {
 
                     errorCheck(response, 404);
                     const payload = JSON.parse(response.payload);
-                    expect(payload.meta.test).to.equal(true);
+                    Code.expect(payload.meta.test).to.equal(true);
                     done();
                 });
 
@@ -362,8 +362,8 @@ lab.experiment('hapi-json-api', () => {
             };
             server.inject(options, (response) => {
 
-                expect(response.statusCode).to.equal(204);
-                expect(response.payload).to.equal('');
+                Code.expect(response.statusCode).to.equal(204);
+                Code.expect(response.payload).to.equal('');
                 done();
             });
         });
@@ -379,7 +379,7 @@ lab.experiment('hapi-json-api', () => {
             };
             server.inject(options, (response) => {
 
-                expect(response.statusCode).to.equal(200);
+                Code.expect(response.statusCode).to.equal(200);
                 done();
             });
         });
@@ -424,10 +424,10 @@ lab.experiment('hapi-json-api', () => {
             server.inject(options, (response) => {
 
                 const payload = JSON.parse(response.payload);
-                expect(response.statusCode).to.equal(200);
-                expect(payload).to.part.include({ data: { id: 'ok' } });
-                expect(payload.meta).to.include('id');
-                expect(response.headers['content-type']).to.equal('application/vnd.api+json');
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(payload).to.part.include({ data: { id: 'ok' } });
+                Code.expect(payload.meta).to.include('id');
+                Code.expect(response.headers['content-type']).to.equal('application/vnd.api+json');
                 done();
             });
         });
@@ -456,9 +456,9 @@ lab.experiment('hapi-json-api', () => {
             server.inject(options, (response) => {
 
                 const payload = response.payload;
-                expect(response.statusCode).to.equal(200);
-                expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
-                expect(payload).to.equal('ok');
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(response.headers['content-type']).to.equal('text/plain; charset=utf-8');
+                Code.expect(payload).to.equal('ok');
                 done();
             });
         });
@@ -474,8 +474,8 @@ lab.experiment('hapi-json-api', () => {
             server.inject(options, (response) => {
 
                 const payload = response.payload;
-                expect(response.statusCode).to.equal(200);
-                expect(payload).to.equal('ok');
+                Code.expect(response.statusCode).to.equal(200);
+                Code.expect(payload).to.equal('ok');
                 done();
             });
         });
