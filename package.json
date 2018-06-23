@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "code": "^5.2.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.0.0",
     "eslint-config-hapi": "^11.1.0",
     "eslint-plugin-hapi": "^4.1.0",
     "fsmonitor": "^0.2.4",
