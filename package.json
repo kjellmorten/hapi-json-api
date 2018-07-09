@@ -1,6 +1,6 @@
 {
   "name": "@gar/hapi-json-api",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Hapi plugin for enabling/enforcing JSONAPI specification",
   "main": "lib/index.js",
   "scripts": {
@@ -41,7 +41,10 @@
     "lab": "^15.4.1"
   },
   "files": [
-    "lib/index.js"
+    "lib/index.js",
+    "lib/PreResponse.js",
+    "lib/IsJsonApiRequest.js",
+    "lib/PreHandler.js"
   ],
   "pre-commit": [
     "lint",
