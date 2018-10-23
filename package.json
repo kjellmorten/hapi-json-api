@@ -38,7 +38,7 @@
     "fsmonitor": "^0.2.4",
     "git-validate": "^2.2.2",
     "hapi": "^17.5.2",
-    "lab": "^15.5.0"
+    "lab": "^17.0.0"
   },
   "files": [
     "lib/index.js",
