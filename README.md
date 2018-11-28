@@ -26,17 +26,9 @@ npm install @gar/hapi-json-api
 ## Example of use
 
 ```javascript
-// where server is a hapi server
-
-// For hapi 17:
+// where server is a hapi server, for hapi 17:
 await server.register({
     plugin: require('@gar/hapi-json-api'),
-    options: {}
-});
-
-// Prior to hapi 17:
-server.register({
-    register: require('@gar/hapi-json-api'),
     options: {}
 });
 ```
