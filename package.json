@@ -1,6 +1,6 @@
 {
   "name": "@gar/hapi-json-api",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "Hapi plugin for enabling/enforcing JSONAPI specification",
   "main": "lib/index.js",
   "scripts": {
@@ -31,14 +31,14 @@
     "media-type": "^0.3.1"
   },
   "devDependencies": {
-    "code": "^5.2.4",
-    "eslint": "^5.9.0",
-    "eslint-config-hapi": "^12.0.0",
-    "eslint-plugin-hapi": "^4.1.0",
+    "@hapi/code": "^5.2.4",
+    "eslint": "^5.16.0",
+    "@hapi/eslint-config-hapi": "^12.0.0",
+    "@hapi/eslint-plugin-hapi": "^4.1.0",
     "fsmonitor": "^0.2.4",
     "git-validate": "^2.2.4",
-    "hapi": "^17.8.1",
-    "lab": "^18.0.0"
+    "@hapi/hapi": "^17.9.0",
+    "@hapi/lab": "^18.0.2"
   },
   "files": [
     "lib/index.js",
