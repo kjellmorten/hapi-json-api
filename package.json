@@ -33,7 +33,7 @@
   "devDependencies": {
     "@hapi/code": "^5.2.4",
     "eslint": "^5.16.0",
-    "@hapi/eslint-config-hapi": "^12.0.0",
+    "@hapi/eslint-config-hapi": "^13.0.0",
     "@hapi/eslint-plugin-hapi": "^4.1.0",
     "fsmonitor": "^0.2.4",
     "git-validate": "^2.2.4",
