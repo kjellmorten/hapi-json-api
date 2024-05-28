@@ -1,19 +1,20 @@
 # hapi-json-api
 
+*Note:* This package has been archived, as the maintainer moved away from Hapi
+when the project was first discontinued. Hapi seems to be alive again, but this
+package will not be updated anymore. It is updated to Hapi 21, but this is done
+naivly without much testing. Use it if it works. :)
+
 Hapi plugin for enabling/enforcing [JSON-API specification](http://jsonapi.org).
 
 Original project transferred from [@wraithgar](https://github.com/wraithgar).
 
 [![Current Version](https://img.shields.io/npm/v/@gar/hapi-json-api.svg)](https://www.npmjs.org/package/@gar/hapi-json-api)
-[![Build Status](https://travis-ci.org/kjellmorten/hapi-json-api.svg?branch=master)](https://travis-ci.org/kjellmorten/hapi-json-api)
-[![NSP Status](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b/badge)](https://nodesecurity.io/orgs/laboreum/projects/933c42d1-7af0-4d0b-82b5-08c4915afe6b)
 [![Greenkeeper badge](https://badges.greenkeeper.io/kjellmorten/hapi-json-api.svg)](https://greenkeeper.io/)
 
 ### Support
 
-We support Hapi 17 from version 3.x, and have dropped support for Node < 8.6.
-
-(If you're using Hapi < 17 and Node < 8.6, `npm install @gar/hapi-json-api@2.0.6`.)
+We support Hapi 21 from version 4.x, and require Node >= 14.15.
 
 ## Getting started
 
@@ -26,9 +27,11 @@ npm install @gar/hapi-json-api
 ## Example of use
 
 ```javascript
-// where server is a hapi server, for hapi 17:
+const jsonApi = require('@gar/hapi-json-api');
+
+// where server is a hapi server, for hapi 21:
 await server.register({
-    plugin: require('@gar/hapi-json-api'),
+    plugin: jsonApi,
     options: {}
 });
 ```
